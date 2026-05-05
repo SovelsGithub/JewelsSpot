@@ -23,7 +23,7 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material3.*
 
-import androidx.compose.ui.Alignment
+//import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -53,6 +53,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 
@@ -354,10 +355,10 @@ fun GoldLiveRateUI() {
 //        Spacer(modifier = Modifier.height(12.dp))
 
         // Table Rows
-        GoldRateRow("24K", "₹7,245.00", "+45.00")
-        GoldRateRow("22K", "₹6,640.00", "+40.00")
-        GoldRateRow("18K", "₹5,460.00", "+32.00")
-        GoldRateRow("14K", "₹4,240.00", "+25.00")
+        GoldRateRow("24K", "999", "₹7,245.00","/ grams", "+45.00", "(+5.2%)")
+        GoldRateRow("22K", "995","₹6,640.00", "/ grams","+40.00", "(+5.2%)")
+        GoldRateRow("18K", "992","₹5,460.00","/ grams", "+32.00", "(+5.2%)")
+        GoldRateRow("14K", "990","₹4,240.00", "/ grams","+25.00", "(+5.2%)")
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -371,7 +372,7 @@ fun GoldLiveRateUI() {
 }
 
 @Composable
-fun GoldRateRow(purity: String, rate: String, change: String) {
+fun GoldRateRow(purity: String, fineness: String, rate: String, unit: String, change: String, percentChange: String) {
 
     Row(
         modifier = Modifier
@@ -381,39 +382,78 @@ fun GoldRateRow(purity: String, rate: String, change: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        Box(
-            modifier = Modifier
-                .border(1.dp, Color(0xFFB68830), RoundedCornerShape(6.dp))
-                .padding(horizontal = 8.dp, vertical = 4.dp)
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Purity inside box
+            Box(
+                modifier = Modifier
+                    .border(1.dp, Color(0xFFB68830), RoundedCornerShape(6.dp))
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
+            ) {
+                Text(
+                    text = purity,   // Example: "24K"
+                    color = colorResource(R.color.golden_text),
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+
+            // Fineness outside box
             Text(
-                text = purity,
-                color = colorResource(R.color.golden_text),
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Medium
+                text = fineness,   // Example: "999.9"
+                color = Color(0xFFB68830),
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Normal
             )
         }
 
-        Text(
-            text = rate,
-            color = Color.White,
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Medium
-        )
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
-                text = "▲",
-                color = Color(0xFF4CAF50),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = change,
-                color = Color(0xFF4CAF50),
-                fontSize = 14.sp,
+                text = rate,          // Example: "₹ 7,245"
+                color = Color.White,
+                fontSize = 15.sp,
                 fontWeight = FontWeight.Medium
+            )
+
+            Text(
+                text = unit,          // Example: "per gram" or "₹/gm"
+                color = Color(0xFFB0B0B0),
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Normal
+            )
+        }
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "▲",
+                    color = Color(0xFF4CAF50),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                Text(
+                    text = change,   // Example: "12.45"
+                    color = Color(0xFF4CAF50),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+
+            Spacer(modifier = Modifier.height(2.dp))
+
+            Text(
+                text = percentChange,   // Example: "+0.18%"
+                color = Color(0xFF4CAF50),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Normal
             )
         }
     }
